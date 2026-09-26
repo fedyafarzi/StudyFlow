@@ -1,13 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "navigation"; // Agar xato bersa, 'next/navigation' deb o'zgartiring
-import { createClient } from "@supabase/supabase-js";
-
-// Supabase ulanishini sozlash (Vercel-dagi kalitlarni localda ham o'qiydi)
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
+import { useRouter } from "next/navigation"; // To'g'rilandi
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -21,19 +15,16 @@ export default function LoginPage() {
     setLoading(true);
     setError("");
 
-    // Supabase Auth orqali login qilish
-    const { data, error: authError } = await supabase.auth.signInWithPassword({
-      email: email,
-      password: password,
-    });
-
-    if (authError) {
-      setError("Login yoki parol noto'g'ri: " + authError.message);
-      setLoading(false);
-    } else {
-      // Muvaffaqiyatli kirganda bosh sahifaga o'tkazish
-      router.push("/");
-    }
+    // VAQTINCHA: Backend ulanmagani uchun simulyatsiya (Demo)
+    setTimeout(() => {
+      if (email === "admin@gmail.com" && password === "admin123") {
+        setLoading(false);
+        router.push("/"); // Bosh sahifaga o'tkazish
+      } else {
+        setError("Login yoki parol noto'g'ri (Demo: admin@gmail.com / admin123)");
+        setLoading(false);
+      }
+    }, 1000); // 1 soniya yuklanish effekti
   };
 
   return (
